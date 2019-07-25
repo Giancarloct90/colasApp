@@ -43,6 +43,10 @@ class TicketControl {
         return `Ticket ${this.ultimo}`;
     }
 
+    getUltimosCuatros() {
+        return this.ultimosCuatros;
+    }
+
     atenderTicket(escritorio) {
 
         // si ya no hay mas tickets se acabo el asunto
@@ -61,7 +65,7 @@ class TicketControl {
         this.ultimosCuatros.unshift(atenderTicket);
 
         // con este codigo se borrar
-        if (this.ultimos4.length > 4) {
+        if (this.ultimosCuatros.length > 4) {
             this.ultimosCuatros.splice(-1, 1);
         }
         console.log('Ultimos 4');

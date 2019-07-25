@@ -19,10 +19,14 @@ io.on('connection', (client) => {
 
     });
 
+    // estamos enviando un msj, lo que estamos enviando es un objeto con el resultado del getUltimotikcet
     client.emit('estadoActual', {
-        actual: ticketControl.getUltimoticket()
+        actual: ticketControl.getUltimoticket(),
+        ultimosCuatros: ticketControl.getUltimosCuatros()
     });
 
+    // Estamos estableciendo una escucha, cuando en el frontend emita un mensaje se ejecutara esto
+    // ejecutamos un callback y le enviamos el resultado de atenderTikcet
     client.on('atenderTikcet', (data, callback) => {
         if (!data.escritorio) {
             return callback({
@@ -31,6 +35,10 @@ io.on('connection', (client) => {
             });
         }
         let atender = ticketControl.atenderTicket(data.escritorio);
-        callback(atenderTickets);
+        callback(atender);
+
+        client.broadcast.emit('ultimos4', {
+            ultimosCuatros: ticketControl.getUltimosCuatros()
+        });
     });
 });
